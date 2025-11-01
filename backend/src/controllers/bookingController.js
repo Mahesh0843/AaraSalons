@@ -83,8 +83,9 @@ exports.createBooking = async (req, res) => {
  */
 exports.getAllBookings = async (req, res) => {
   try {
-    const bookings = await Booking.find().sort({ createdAt: -1 });
-    res.status(200).json({ success: true, bookings });
+    // const bookings = await Booking.find().sort({ createdAt: -1 });
+    // res.status(200).json({ success: true, bookings });
+    Hi
   } catch (error) {
     console.error('Error in getAllBookings:', error);
     res.status(500).json({
