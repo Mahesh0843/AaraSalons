@@ -5,7 +5,7 @@ const cors = require('cors');
 
 const app = express();
 const allowedOrigins = [
-  "https://aarasalons.onrender.com", // Render preview URL (update later)
+  "https://aarasalons6.onrender.com", // Render preview URL (update later)
   "https://www.aarasalons.com",         // your custom domain (later)
   "http://localhost:4000"               // local dev (optional)
 ];
