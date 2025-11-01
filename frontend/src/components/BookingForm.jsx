@@ -1,5 +1,5 @@
 import { useState } from "react";
-
+const API = import.meta.env.VITE_API_URL || "http://localhost:5000";
 const BookingForm = () => {
   const [formData, setFormData] = useState({
     name: "",
@@ -98,7 +98,7 @@ const BookingForm = () => {
     setIsSubmitting(true);
 
     try {
-      const response = await fetch("http://localhost:5000/api/book", {
+      const response = await fetch(`${API}/api/book`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
