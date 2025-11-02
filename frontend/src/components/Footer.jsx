@@ -32,7 +32,7 @@ const Footer = () => {
           </div>
         </div>
       </div>
-      <p className="copyright">© 2025 AARA Salon. All rights reserved. | <a href="#">Privacy Policy</a></p>
+      <p className="copyright">© 2025 AARA Salon. All rights reserved. | <Link to="/privacy">Privacy Policy</Link></p>
     </footer>
   )
 }
