@@ -221,9 +221,12 @@ body {
 /* --- Services Menu Section (Updated Premium Style) --- */
 /* ------------------------------------------------ */
 .service-menu-section {
-    padding-top: 50px;
-    max-width: 1400px;
+    padding: 50px 4% 30px;
+    max-width: 1200px;
     margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
 }
 
 .section-note {
@@ -238,22 +241,29 @@ body {
 .category-tabs {
     display: flex;
     justify-content: center;
-    gap: 20px;
-    margin-bottom: 40px;
-    border-bottom: 2px solid rgba(44, 30, 28, 0.1);
+    gap: 12px;
+    margin-bottom: 28px;
+    padding: 8px;
+    flex-wrap: wrap;
+    align-items: center;
+    border-bottom: 2px solid rgba(44, 30, 28, 0.06);
+    border-radius: 12px;
 }
 
 .tab-button {
-    background: none;
-    border: none;
-    padding: 15px 30px;
-    font-size: 1.5em;
+    background: transparent;
+    border: 1px solid transparent;
+    padding: 10px 18px;
+    font-size: 1.05em;
     font-family: var(--font-serif);
     font-weight: 700;
     color: var(--color-accent-pink);
     cursor: pointer;
-    transition: color 0.3s, border-bottom 0.3s;
-    border-bottom: 3px solid transparent;
+    transition: color 0.25s ease, background-color 0.25s ease, transform 0.15s ease;
+    border-radius: 999px; /* pill */
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
 }
 
 .tab-button i {
@@ -263,6 +273,7 @@ body {
 
 .tab-button:hover {
     color: var(--color-secondary-gold);
+    transform: translateY(-2px);
 }
 
 .tab-button:hover i {
@@ -270,8 +281,9 @@ body {
 }
 
 .tab-button.active {
-    color: var(--color-secondary-gold);
-    border-bottom-color: var(--color-accent-pink);
+    color: var(--color-text-light);
+    background-color: var(--color-accent-pink);
+    border-color: var(--color-accent-pink);
 }
 
 .tab-button.active i {
@@ -296,28 +308,32 @@ body {
 
 /* --- Sub-Category Tabs (Hair/Skin/Makeup, etc.) --- */
 .sub-category-tabs {
-    display: flex;
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: min-content;
     justify-content: center;
     gap: 10px;
-    margin: 30px 0 50px 0;
-    flex-wrap: wrap;
+    margin: 22px 0 40px 0;
     padding: 10px;
     background-color: var(--color-accent-pink);
-    border-radius: 8px;
+    border-radius: 10px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
 }
 
 .sub-tab-button {
-    background: none;
-    border: 1px solid rgba(255, 255, 255, 0.5);
-    padding: 10px 20px;
-    font-size: 1em;
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.45);
+    padding: 8px 14px;
+    font-size: 0.95em;
     font-family: var(--font-sans);
     font-weight: 600;
     color: var(--color-text-light);
     cursor: pointer;
-    transition: background-color 0.3s, color 0.3s, border-color 0.3s;
-    border-radius: 4px;
+    transition: background-color 0.2s, color 0.2s, border-color 0.2s;
+    border-radius: 999px; /* chip */
+    white-space: nowrap;
 }
 
 .sub-tab-button:hover {
@@ -356,10 +372,13 @@ body {
 
 .service-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 40px;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 30px 28px;
     max-width: 1200px;
     margin: 0 auto;
+    /* Make each grid row take equal height so cards match */
+    grid-auto-rows: 1fr;
+    align-items: stretch;
 }
 
 /* --- Service Card Styling --- */
@@ -372,6 +391,11 @@ body {
     box-shadow: 0 6px 25px rgba(0, 0, 0, 0.08);
     transition: transform 0.4s ease, box-shadow 0.4s ease, border-top-color 0.4s ease, background-color 0.4s ease;
     text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start; /* let content stack, button will be pushed down */
+    padding: 16px;
+    height: 100%; /* fill grid cell so all cards equal height */
 }
 
 .service-card-detail:hover {
@@ -383,10 +407,11 @@ body {
 
 .service-image {
     width: 100%;
-    height: 250px;
+    height: 220px;
     object-fit: cover;
     display: block;
     border-radius: 16px 16px 0 0;
+    flex-shrink: 0;
 }
 
 .service-card-detail h4 {
@@ -401,6 +426,7 @@ body {
     font-size: 0.95em;
     color: rgba(44, 30, 28, 0.75);
     margin-bottom: 15px;
+    flex: 1 1 auto;
 }
 
 .service-price {
@@ -418,7 +444,9 @@ body {
     padding: 10px 25px;
     text-decoration: none;
     font-weight: 600;
-    margin-bottom: 20px;
+    margin-top: auto; /* push to bottom of card */
+    margin-left: auto;
+    margin-right: auto;
     border-radius: 4px;
     transition: background-color 0.3s ease, transform 0.3s ease;
 }
