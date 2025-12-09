@@ -1,16 +1,22 @@
 const Booking = require('../models/Booking');
-const { MailerSend, EmailParams, Sender, Recipient } = require('mailersend');
+const nodemailer = require("nodemailer");
 
-// Initialize MailerSend
-const mailerSend = new MailerSend({
-  apiKey: process.env.API_KEY,
+// ---------------------------------------
+// Nodemailer Transporter (Gmail App Password)
+// ---------------------------------------
+const transporter = nodemailer.createTransport({
+  service: "gmail",
+  auth: {
+    user: process.env.EMAIL_USER,  
+    pass: process.env.EMAIL_PASS 
+  }
 });
 
 const adminEmail = process.env.ADMIN_EMAIL;
 
-/**
- * Create booking and send details to admin via email
- */
+// ---------------------------------------
+// Create a Booking + Send Admin Email
+// ---------------------------------------
 exports.createBooking = async (req, res) => {
   try {
     const { name, mobile, service, stylist, date, time } = req.body;
@@ -22,7 +28,6 @@ exports.createBooking = async (req, res) => {
       });
     }
 
-    // Save booking to database
     const booking = new Booking({
       name,
       mobile,
@@ -33,18 +38,17 @@ exports.createBooking = async (req, res) => {
       status: 'confirmed'
     });
 
+    // Save booking to DB
     const savedBooking = await booking.save();
+    console.log("📦 Booking saved to DB:", savedBooking);
 
-    // Send email to admin
+    // Send email
     try {
-      const from = new Sender(process.env.FROM_EMAIL, 'AARA Salon');
-      const to = [new Recipient(adminEmail, 'Admin')];
-
-      const emailParams = new EmailParams()
-        .setFrom(from)
-        .setTo(to)
-        .setSubject('🪞 New Booking Received - AARA Salon')
-        .setHtml(`
+      await transporter.sendMail({
+        from: process.env.EMAIL_USER,
+        to: adminEmail,
+        subject: '🪞 New Booking Received - AARA Salon',
+        html: `
           <h2>New Booking Details</h2>
           <p><strong>Name:</strong> ${savedBooking.name}</p>
           <p><strong>Mobile:</strong> ${savedBooking.mobile}</p>
@@ -53,14 +57,12 @@ exports.createBooking = async (req, res) => {
           <p><strong>Date:</strong> ${new Date(savedBooking.date).toLocaleDateString('en-IN')}</p>
           <p><strong>Time:</strong> ${savedBooking.time}</p>
           <p><strong>Status:</strong> ${savedBooking.status}</p>
-          <hr/>
-          <p>📩 Sent automatically by AARA Salon Booking System</p>
-        `);
+        `
+      });
 
-      await mailerSend.email.send(emailParams);
-      console.log('✅ Booking email sent to admin:', adminEmail);
+      console.log("📧 Email sent to admin:", adminEmail);
     } catch (emailError) {
-      console.error('❌ Failed to send admin email:', emailError.message);
+      console.error("❌ Email sending failed:", emailError.message);
     }
 
     res.status(201).json({
@@ -70,7 +72,7 @@ exports.createBooking = async (req, res) => {
     });
 
   } catch (error) {
-    console.error('Error in createBooking:', error);
+    console.error('❌ Error in createBooking:', error.message);
     res.status(500).json({
       success: false,
       message: 'Failed to confirm booking. Please try again.',
@@ -78,16 +80,16 @@ exports.createBooking = async (req, res) => {
   }
 };
 
-/**
- * Get all bookings
- */
+
+// ---------------------------------------
+// Get All Bookings
+// ---------------------------------------
 exports.getAllBookings = async (req, res) => {
   try {
-    // const bookings = await Booking.find().sort({ createdAt: -1 });
-    // res.status(200).json({ success: true, bookings });
-    Hi
+    const bookings = await Booking.find().sort({ createdAt: -1 });
+    res.status(200).json({ success: true, bookings });
   } catch (error) {
-    console.error('Error in getAllBookings:', error);
+    console.error('❌ Error in getAllBookings:', error.message);
     res.status(500).json({
       success: false,
       message: 'Failed to fetch bookings',
@@ -95,9 +97,9 @@ exports.getAllBookings = async (req, res) => {
   }
 };
 
-/**
- * Get booking by ID
- */
+// ---------------------------------------
+// Get Booking By ID
+// ---------------------------------------
 exports.getBookingById = async (req, res) => {
   try {
     const booking = await Booking.findById(req.params.id);
@@ -106,10 +108,11 @@ exports.getBookingById = async (req, res) => {
     }
     res.status(200).json({ success: true, booking });
   } catch (error) {
-    console.error('Error in getBookingById:', error);
+    console.error('❌ Error in getBookingById:', error.message);
     res.status(500).json({
       success: false,
       message: 'Failed to fetch booking',
     });
   }
 };
+
