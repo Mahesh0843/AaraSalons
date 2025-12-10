@@ -11,7 +11,7 @@ const transporter = nodemailer.createTransport({
 
 const adminEmail = process.env.ADMIN_EMAIL;
 
-// ---------------------------------------
+// -------------------------------
 // Create a Booking + Send Admin Email
 // ---------------------------------------
 exports.createBooking = async (req, res) => {
