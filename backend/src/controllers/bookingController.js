@@ -1,9 +1,6 @@
 const Booking = require('../models/Booking');
 const nodemailer = require("nodemailer");
 
-// ---------------------------------------
-// Nodemailer Transporter (Gmail App Password)
-// ---------------------------------------
 const transporter = nodemailer.createTransport({
   service: "gmail",
   auth: {
