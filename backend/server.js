@@ -9,7 +9,7 @@ const allowedOrigins = [
   "https://aarasalons5.onrender.com" ,// Render preview URL (update later)
   // "https://www.aarasalons.com",         // your custom domain (later)
   "http://localhost:4000",
-    "http://localhost:3000"               // local dev (optional)
+    "http://localhost:3000"               // local dev (optional
 ];
 
 app.use(cors({
